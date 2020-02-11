@@ -1,3 +1,87 @@
-h1 {
-    font-size: 100px;
+
+body {
+    font-family:'Special Elite', cursive;
+    margin: 10px;
+}
+
+.title {
+    margin: 30px;
+}
+
+.title img {
+    width: 10%;
+}
+
+.title h1 {
+    font-size: 50px;
+    display: inline-block;
+}
+
+section {
+    float: left;
+}
+
+aside {
+    width: 50%;
+}
+
+#wordContainer {
+    width: 100%;
+    position: relative;
+    float: right;
+}
+
+#hiddenWord {
+    list-style: none;
+    width: 100%;
+}
+
+#hiddenWord li {
+    float: left;
+    border-bottom: 2px solid;
+    margin-right: 10px;
+    font-size: 40px;
+}
+
+#hiddenWord li:empty{
+    border-bottom: 10px solid crimson;
+}
+
+#animation {
+    float: left;
+    position: absolute;
+    height: 100px;
+}
+
+#boys {
+    margin-top: 50px;
+}
+
+#meteor {
+    width: 20%;
+    height: auto;
+}
+
+aside {
+    float: right;
+}
+
+#keyContainer {
+    position: relative;
+    float: right;
+    width: 100%;
+    margin-top: 20px;
+}
+
+#keyboard {
+    list-style: none;
+    font-size: 30px;
+}
+
+#keyboard li {
+    float: left;
+    margin: 0 5px 0 5px;
+    font-weight: bold;
+    padding: 2px;
+    border: 2px solid;
 }

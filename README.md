@@ -1,8 +1,6 @@
 # Hangman
 Hangman game
 
-Game hangman
-
 This is a letter guessing game, where the player needs to guess letters in order to reveal the hidden word. With every wrong letter typed by the player, a new element in the hangman is drawn. The user loses when the hangman is drawn entirely.
 
 MVP:
@@ -18,4 +16,32 @@ MVP:
 
 Possible stretch goals:
 - give clues to the player
-- add additional complexity to the game
+- add additional complexity to the game (add timer, add levels: easy, medium, hard, select words by topic);
+
+GAME LOGIC:
+
+The game:
+- keep one word at a time + its letters
+- show letter if inside the word
+- draw hangman segment if letter is not inside the word
+- show message if letter matches the word
+- show message if letter doesn't match the word
+- add points
+- show if player won or lost (if word is guessed in X tries)
+- reset to new game and new word
+
+The player:
+- see the hidden word length
+- see letter board
+- be able to select letters
+- see the selected letters that don't match the word
+- wins if the word is guessed before hangman is drawn
+
+Constants:
+- player object
+
+State variables:
+- board
+- winner
+
+
