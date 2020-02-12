@@ -12,61 +12,74 @@
 <body>
     <div class = "title">
         <h1>Don't kill Kenny</h1>
-        <img src="css/dont_kill_kenny.jpg"/>
+        <img id = "kennyTitle" src="css/dont_kill_kenny.jpg"/>
     </div>
-    <nav>SCORE</nav>
-    <section>
-        <div id = "animation">
-            <div>
-                <img id = "meteor" src="css/meteor2.png"/>
+    <nav id = "startGame">
+        <div>SCORE</div>
+        <button id = "btnStart">Start game</button>
+    </nav>
+    <div id = "about">Instructions to play</div>
+
+    <div class = "game">
+        <div class = "animation">
+            <div id="meteor">
+                <img src="css/meteor2.png"/>
             </div>
             <div id ="boys">
                 <img src="css/the-boys2.png"/>
             </div>
         </div>
-    </section>
-    <aside>
-        <div id = "wordContainer">
-            <ul id = "hiddenWord">
-                <li>L</li>
-                <li>E</li>
-                <li>T</li>
-                <li>T</li>
-                <li>E</li>
-                <li>R</li>
-            </ul>
+        <div class = "gamePlay">
+            <div id = "wordContainer">
+                <table class = "hiddenWord">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </table>
+            </div>
+            <div id = "keyContainer">
+                <ul class = "keyboard">
+                    <li class="letter" id="a">A</li>
+                    <li class="letter">B</li>
+                    <li class="letter">C</li>
+                    <li class="letter">D</li>
+                    <li>E</li>
+                    <li>F</li>
+                </ul>
+                <ul class = "keyboard">
+                    <li>G</li>
+                    <li>H</li>
+                    <li>I</li>
+                    <li>J</li>
+                    <li>K</li>
+                </ul>
+                <ul class="keyboard">
+                    <li>L</li>
+                    <li>M</li>
+                    <li>N</li>
+                    <li>O</li>
+                    <li>P</li>
+                    <li>Q</li>
+                    <li>R</li>
+                </ul>
+                <ul class = "keyboard">
+                    <li>S</li>
+                    <li>T</li>
+                    <li>U</li>
+                    <li>V</li>
+                    <li>W</li>
+                </ul>
+                <ul class = "keyboard">
+                    <li>X</li>
+                    <li>Y</li>
+                    <li>Z</li>
+                </ul>
+            </div>
         </div>
-        <div id = "keyContainer">
-            <ul id = "keyboard">
-                <li class="letter" id="a">A</li>
-                <li class="letter">B</li>
-                <li class="letter">C</li>
-                <li class="letter">D</li>
-                <li>E</li>
-                <li>F</li></br><br>
-                <li>G</li>
-                <li>H</li>
-                <li>I</li>
-                <li>J</li>
-                <li>K</li>
-                <li>L</li></br><br>
-                <li>M</li>
-                <li>N</li>
-                <li>O</li>
-                <li>P</li>
-                <li>Q</li>
-                <li>R</li></br><br>
-                <li>S</li>
-                <li>T</li>
-                <li>U</li>
-                <li>V</li>
-                <li>W</li></br><br>
-                <li>X</li>
-                <li>Y</li>
-                <li>Z</li>
-            </ul>
-        </div>
-    </aside>
-
+    
+    </div>
 </body>
 </html>
