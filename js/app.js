@@ -3,10 +3,11 @@ console.log("hola");
 // CONSTANTS
 
 const words = ["McCormick", "Broflovski", "Barbrady", "TweekTweak"];
-let currWord = "LETTER"; // word that the player has to guess
+let currWord = ""; // word that the player has to guess
 let correctLetters = [];
 let wrongLetters = [];
 let numberOfTries = 5;
+let currCorrectLetter = "";
 
 // STATE VARIABLES
 
@@ -34,22 +35,17 @@ function selectLetter (event) {
     }
 } 
 
-
-function countLetter (word, letter) {
-    // checks if the letter is in the word - returns 0 or >=1
-    let count = 0;
-    for (let i = 0; i < word.length; i++) {
-        if (letter === word[i]) {
-            count ++;
-        }
-    } 
-    return count;
-};
-
+/*
 function updateHiddenWord (letter) {
-    // adds correct letter to hidden word
-    // hint: https://www.w3schools.com/jsref/met_table_insertrow.asp
-}
+    let cell = document.getElementsByTagName('td');
+    for (let i = 0; i < currWord.length; i++) {
+         if (letter === currWord[i]) {
+            cell[i].innerHTML = letter;
+         } 
+    }
+} */
+
+
 
 function checkForMatch (letter, element) {
     let count = countLetter(currWord,letter);
@@ -57,7 +53,12 @@ function checkForMatch (letter, element) {
         for (let i = 0; i < count; i++) {
             correctLetters.push(letter);
         }
-        updateHiddenWord(letter);
+        let cell = document.getElementsByTagName('td');
+        for (let i = 0; i < currWord.length; i++) {
+             if (letter === currWord[i]) {
+                cell[i].innerHTML = letter;
+             } 
+        }
         checkForWin();
     } else {
         wrongLetters.push(letter);
@@ -67,6 +68,9 @@ function checkForMatch (letter, element) {
     disableKey(letter, element);
 }
 
+
+
+
 function checkForWin () {
     if (currWord.length === correctLetters.length) {
         console.log("You won");
@@ -74,31 +78,85 @@ function checkForWin () {
     console.log(correctLetters);
 }
 
+
 function disableKey (letter, element) {
     element.style.color = "lightgrey";
     element.style.border = "2px solid lightgrey";
 }
 
 function shuffleWords (arrayWords) {
-    for (let i = arrayWords.length; i > 0; i--) {
+    for (let i = arrayWords.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [arrayWords[i], arrayWords[j]] = [arrayWords[j], arrayWords[i]];
-
     }
 }
 
+
+function countLetter (word, letter) {
+    // checks if the letter is in the word - returns 0 or >=1
+    let count = 0; 
+    for (let i = 0; i < word.length; i++) {
+        if (letter === word[i]) {
+            count ++;
+           // currCorrectLetter = letter;
+        }
+    } 
+    return count;
+};
+
+
+function createHiddenWordLines () {
+    let table = document.getElementById("hiddenWord");
+    let row = table.insertRow(0);
+    for (let i = 0; i < currWord.length; i++) {
+        row.insertCell(i);
+    }
+} 
+
+/*
+function addWordTd (letter) {
+    let cell = document.getElementsByTagName('td');
+    for (let i = 0; i <= currWord.length; i++) {
+        cell[i].innerHTML = letter;
+    }
+    console.log(letter);
+}
+*/
+
+
+
 function startGame () {
-    shuffleWords (words);
+    shuffleWords (words); 
     currWord = words.pop().toUpperCase();
     console.log(currWord);
     
     let wordLength = currWord.length;
-    updateHiddenWord();
     numberOfTries = Math.floor(wordLength - 0.3 * wordLength);
+    createHiddenWordLines();
+    moveMeteor();
 }
 
+function moveMeteor () {
+    let meteor = document.getElementById("meteorImg");
+    let pos = 20;
+    let id = setInterval(calcMoves, 10);
+    function calcMoves () {
+        meteor.style.top = pos + '%';
+    }
+}
+
+// send number tries to meteor function
+// call moveMeteor on worng letter click
 
 
+
+
+
+
+// ERRORS:
+
+// app.js:92 Uncaught TypeError: Cannot read property 'toUpperCase' of undefined
+// at HTMLButtonElement.startGame (app.js:92)
 
 
 /* -----------------------------------------

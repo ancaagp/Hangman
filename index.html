@@ -14,16 +14,18 @@
         <h1>Don't kill Kenny</h1>
         <img id = "kennyTitle" src="css/dont_kill_kenny.jpg"/>
     </div>
-    <nav id = "startGame">
-        <div>SCORE</div>
-        <button id = "btnStart">Start game</button>
-    </nav>
-    <div id = "about">Instructions to play</div>
+    <div id = "intro">
+        <nav id = "startGame">
+            <div>SCORE</div>
+            <button id = "btnStart">Start game</button>
+        </nav>
 
+        <div id = "about">Instructions to play</div>
+    </div>
     <div class = "game">
         <div class = "animation">
             <div id="meteor">
-                <img src="css/meteor2.png"/>
+                <img id ="meteorImg" src="css/meteor2.png"/>
             </div>
             <div id ="boys">
                 <img src="css/the-boys2.png"/>
@@ -31,13 +33,7 @@
         </div>
         <div class = "gamePlay">
             <div id = "wordContainer">
-                <table class = "hiddenWord">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <table id = "hiddenWord">
                 </table>
             </div>
             <div id = "keyContainer">
