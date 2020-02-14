@@ -1,47 +1,46 @@
-# Hangman
-Hangman game
+# Don't kill Kenny - just another hangman game
 
-This is a letter guessing game, where the player needs to guess letters in order to reveal the hidden word. With every wrong letter typed by the player, a new element in the hangman is drawn. The user loses when the hangman is drawn entirely.
+![DKK] (https://static.spin.com/files/2019/06/south_park_still_h_2016-1561757034-640x360.jpg)
 
-MVP:
-- show the blank space for each letter
-- randomize hidden word taken from an API
+
+**Don't kill Kenny** is a South Park inspired hangman game that randomizes South Park characters names that need to be guessed by the player. With every wrong letter typed by the player, the meteorite is getting closer to Kenny. The player's objective is to keep Kenny alive.
+
+
+## Game play
+
+- shows the blank space for each letter
+- randomize hidden word taken from an predefined array of character names
 - show the keyboard on the screen from where the player can pick letters
-- draw a new element of hangman with each wrong letter clicked
-- the number of letters needs to be longer than the elements in the hangman
-- player can guess the whole word when there are min 3 letters displayed on the screen
+- uses images to show the status of the game
+- the number of letters needs to be longer than the number of tries
 - player wins when the correct word is revealed
-- player loses when the hangman is drawn
+- player loses when the meteorite is on top of Kenny
 - game will restart with a new random word
 
-Possible stretch goals:
-- give clues to the player
-- add additional complexity to the game (add timer, add levels: easy, medium, hard, select words by topic);
 
-GAME LOGIC:
+## Future developments
+
+- get randomized words from a word API
+- give clues to the player about the word
+- select word by topic
+- add level to the game (easy, medium, hard)
+- add score and rounds
+
+## Game logic:
 
 The game:
-- keep one word at a time + its letters
-- show letter if inside the word
-- draw hangman segment if letter is not inside the word
-- show message if letter matches the word
-- show message if letter doesn't match the word
-- add points
-- show if player won or lost (if word is guessed in X tries)
-- reset to new game and new word
+- keeps one word at a time + its letters
+- shows letter if inside the word
+- moves meteorite if letter is not inside the word
+- shows if player won or lost (if word is guessed in X tries)
+- resets to new game and new word
 
 The player:
-- see the hidden word length
-- see letter board
-- be able to select letters
-- see the selected letters that don't match the word
-- wins if the word is guessed before hangman is drawn
+- sees the hidden word length
+- sees letter board
+- is able to select letters
+- sees the selected letters that don't match the word
+- wins if the word is guessed before meteorite reaches Kenny
 
-Constants:
-- player object
-
-State variables:
-- board
-- winner
 
 
