@@ -204,3 +204,9 @@ table tr td {
 #hiddenWord {
     height: 50px;
 }
+
+@media only screen and (max-device-width: 480px) {
+    #startGame button {
+        height: 6vh;
+        width: 19vh;
+}
