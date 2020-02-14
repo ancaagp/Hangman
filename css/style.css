@@ -8,15 +8,55 @@ body {
 
 #intro {
     display: flex;
-    height: 10vh;
     flex-direction: row-reverse;
+    width: 90vw;
 }
 
 #startGame {
+    width: 45vw;
     display: flex;
-    flex-direction: column;
-    float: right;
-    margin-right: 30vh;
+    flex-direction: row;
+    margin-left: 20vw;
+}
+
+
+#startGame button {
+    height: 5vh;
+    width: 15vw;
+    margin-left: 18vw;
+    margin-top: 20px;
+    box-shadow:inset 0px 1px 0px 0px #a4e271;
+	background:linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+	background-color:#55B949;
+	border-radius:6px;
+	border:1px solid #74b807;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+    text-shadow:0px 1px 0px #528009;
+    font-family:'Special Elite', cursive, sans-serif;
+}
+
+#startGame button:hover {
+	background:linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+	background-color:#77a809;
+}
+
+#startGame button:active {
+	position:relative;
+	top:1px;
+}
+
+
+#about {
+    width: 45vw;
+    text-align: left;
+    font-size: 15px;
+    margin-left: 9vw;
 }
 
 .title {
@@ -41,58 +81,68 @@ body {
     text-align: center;
 }
 
-/*
-.title img {
-    float: left;
-}
-*/
 
 .game {
     display: flex;
     width: 100%;
-    height: 70vh;
+    height: 60vh;
 }
 
-.animation {
+#animation {
     display: flex;
     flex-wrap: wrap;
     align-content: space-between;
-    width: 45vh;
+    width: 50%;
     position: relative;
 }
 
 .gamePlay {
     display: flex;
     flex-direction: column;
-    width: 45vh;
+    width: 50%;
     margin: auto;
     /*align-items: center;
     justify-content: center;*/
 }
 
 #meteor {
-    width: 45vh;
+    width: 30%;
+    height: 60%;
 }
 
 #meteorImg {
-    width: 20vh;
-    position: relative;
-    margin-left: 11%;
+    width: 15vw;
+    margin-left: 55%;
     position: absolute;
+    top: 1vh;
 }
 
-#boys {
-    width: 45vh;
+#boysImg {
+    width: 80%;
+    margin-left: 5vh;
+}
+
+#deadKenny {
+    width: 20vw;
+    margin-left: 10vw;
+    margin-top: 25vh;
+    position: relative;
+}
+
+#omgText {
+    top: 1vh;
+    position: absolute;
+    width: 40vw;
 }
 
 #keyContainer {
-    width: 45vh;
+    width: 45vw;
     margin-top: 20px;
 }
     
 
 #wordContainer {
-    width: 45vh;
+    width: 45vw;
    /* position: relative;
     float: right;*/
 }
@@ -135,25 +185,3 @@ table tr td {
     cursor: pointer;
     }
 
-
-/*
-#animation {
-    float: left;
-    position: absolute;
-    height: 100px;
-}
-
-#boys {
-    margin-top: 50px;
-}
-
-#meteor {
-    width: 50vh;
-    height: auto;
-}
-
-aside {
-    float: right;
-}
-
-*/

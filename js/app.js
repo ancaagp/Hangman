@@ -1,4 +1,5 @@
-console.log("hola");
+
+// TO DO: initialize (reset)
 
 // CONSTANTS
 
@@ -6,15 +7,20 @@ const words = ["McCormick", "Broflovski", "Barbrady", "TweekTweak"];
 let currWord = ""; // word that the player has to guess
 let correctLetters = [];
 let wrongLetters = [];
-let numberOfTries = 5;
-let currCorrectLetter = "";
+let numberOfTries = 0;
+let fallIncrement = 0;
+let meteorStart = 0;
+let meteorEnd = 45;
+//let meteorPosition = 0;
+//gameHeight = document.getElementById("animation").clientHeight;
 
 // STATE VARIABLES
 
 // CACHED ELEMENTS
 
 let btnStart = document.getElementById("btnStart");
-let keyboard = document.getElementById("keyContainer")
+let keyboard = document.getElementById("keyContainer");
+let meteor = document.getElementById("meteorImg");
 
 // EVENT LISTENERS
 
@@ -28,6 +34,9 @@ function isLetterUsed (letter) {
 }
 
 function selectLetter (event) {
+    if (numberOfTries === 0) {
+        return;
+    }
     let selectedLetter = event.target.textContent;
     let selectedElement = event.target;
     if (isLetterUsed(selectedLetter) !== true) {
@@ -46,7 +55,6 @@ function updateHiddenWord (letter) {
 } */
 
 
-
 function checkForMatch (letter, element) {
     let count = countLetter(currWord,letter);
     if (count > 0) {
@@ -62,26 +70,34 @@ function checkForMatch (letter, element) {
         checkForWin();
     } else {
         wrongLetters.push(letter);
-        // update meteorite
-        // check for loss
+        numberOfTries--;
+        moveMeteor();
+        checkForLoss();
     }
     disableKey(letter, element);
 }
 
 
-
-
 function checkForWin () {
     if (currWord.length === correctLetters.length) {
-        console.log("You won");
+        let animationBox = document.getElementById("animation");
+        animationBox.innerHTML = "<img id = \"deadKenny\" src =\" css/images/happy_kenny.png\">" + "<h1 id = \"omgText\"> CONGRATS!!!";
+
     }
     console.log(correctLetters);
 }
 
 
+function checkForLoss () {
+    if (numberOfTries <=0) {
+        let animationBox = document.getElementById("animation");
+        animationBox.innerHTML = "<img id = \"deadKenny\" src =\" css/images/dead_kenny.gif\">" + "<h1 id = \"omgText\"> OH MY GOD! </br> YOU JUST KILLED KENNY!!!";
+    }
+} 
+
 function disableKey (letter, element) {
     element.style.color = "lightgrey";
-    element.style.border = "2px solid lightgrey";
+   // element.style.border = "2px solid lightgrey";
 }
 
 function shuffleWords (arrayWords) {
@@ -105,7 +121,7 @@ function countLetter (word, letter) {
 };
 
 
-function createHiddenWordLines () {
+function drawHiddenWord () {
     let table = document.getElementById("hiddenWord");
     let row = table.insertRow(0);
     for (let i = 0; i < currWord.length; i++) {
@@ -124,29 +140,47 @@ function addWordTd (letter) {
 */
 
 
-
 function startGame () {
-    shuffleWords (words); 
-    currWord = words.pop().toUpperCase();
+    document.getElementById("hiddenWord").innerHTML = ""; // clears the cells and borders
+    shuffleWords (words); // randomizes the words in the array
+    currWord = words.pop().toUpperCase(); // saves the current word in upper case
     console.log(currWord);
-    
-    let wordLength = currWord.length;
-    numberOfTries = Math.floor(wordLength - 0.3 * wordLength);
-    createHiddenWordLines();
-    moveMeteor();
+
+    numberOfTries = Math.floor(currWord.length - 0.3 * currWord.length); // calculates number of tries based on the length of the word
+    console.log(numberOfTries);
+
+    fallIncrement = meteorEnd/numberOfTries; // sets the number the meteor needs to fall at every wrong try
+
+    drawHiddenWord(); // draws the cells and borders
+   // console.log(gameHeight);
 }
+
 
 function moveMeteor () {
     let meteor = document.getElementById("meteorImg");
-    let pos = 20;
-    let id = setInterval(calcMoves, 10);
-    function calcMoves () {
-        meteor.style.top = pos + '%';
-    }
-}
+    //let animation = document.getElementById("animation");
+   // let pos = (wrongLetters.length/numberOfTries) * animation.maxTopOffset - meteor.maxTopOffset/2;
+   if (!meteor.style.top) {
+       meteor.style.top = fallIncrement + "vh";
+   } else {
+        let meteorTop = parseFloat(meteor.style.top);
+        meteor.style.top = meteorTop + fallIncrement + "vh";
+   }
 
-// send number tries to meteor function
-// call moveMeteor on worng letter click
+   // meteor.Top += fallIncrement + "vh";
+    /*
+    meteorPosition += maxTopOffset / numberOfTries;
+    meteor.style.top = meteorPosition + 'px'; 
+
+    let pos = (wrongLetters.length/numberOfTries) * 100;
+    meteor.style.top = pos + "%";
+    console.log(pos);
+    pos = maxTopOffset / numberOfTries;
+    meteor.style.top = pos + 'px'; 
+    pos = maxTopOffset - pos;
+    console.log(pos);   */
+} 
+
 
 
 
