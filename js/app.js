@@ -1,20 +1,20 @@
 
-// TO DO: initialize (reset)
 
 // CONSTANTS
 
-const words = ["McCormick", "Broflovski", "Barbrady", "TweekTweak"];
+const words = ["McCormick", "Broflovski", "Barbrady", "TweekTweak", "MrGarrison", "Sheila","MrSlave", "Butters", "Testaburger"];
+const meteorStart = 0;
+const meteorEnd = 45;
+
+
+// STATE VARIABLES
+
 let currWord = ""; // word that the player has to guess
 let correctLetters = [];
 let wrongLetters = [];
 let numberOfTries = 0;
 let fallIncrement = 0;
-let meteorStart = 0;
-let meteorEnd = 45;
-//let meteorPosition = 0;
-//gameHeight = document.getElementById("animation").clientHeight;
 
-// STATE VARIABLES
 
 // CACHED ELEMENTS
 
@@ -22,83 +22,101 @@ let btnStart = document.getElementById("btnStart");
 let keyboard = document.getElementById("keyContainer");
 let meteor = document.getElementById("meteorImg");
 
+
 // EVENT LISTENERS
 
 keyboard.addEventListener("click", selectLetter);
 btnStart.addEventListener("click", startGame);
 
 
+// FUNCTIONS
 
-function isLetterUsed (letter) {
-    return correctLetters.includes(letter) || wrongLetters.includes(letter); // returns true or false
+// CORE FUNCTIONS
+
+// starts and resets game
+function startGame () {
+    document.getElementById("hiddenWord").innerHTML = ""; // clears the cells and borders
+    shuffleWords (words); // randomizes the words in the array
+    currWord = words.pop().toUpperCase(); // saves the current word in upper case
+    numberOfTries = Math.floor(currWord.length - 0.3 * currWord.length); // calculates number of tries based on the length of the word
+   
+    // resets the arrays to empty
+    correctLetters = []; 
+    wrongLetters = [];
+    
+    fallIncrement = meteorEnd/numberOfTries; // sets the number the meteor needs to fall at every wrong try
+    resetMeteor();
+    restartAnimation();
+    resetKeyboard();
+    drawHiddenWord(); // draws the cells and borders
 }
 
+// collects player input 
 function selectLetter (event) {
-    if (numberOfTries === 0) {
+    if (numberOfTries <= 0) { // doesn't allow to select letters if if player loses
         return;
     }
-    let selectedLetter = event.target.textContent;
+    let selectedLetter = event.target.textContent; 
     let selectedElement = event.target;
+    // continues game if the letter clicked hasn't been used yet
     if (isLetterUsed(selectedLetter) !== true) {
-        checkForMatch(selectedLetter, selectedElement);
+        checkForMatch(selectedLetter);
+        disableKey(selectedElement);
     }
 } 
 
-/*
-function updateHiddenWord (letter) {
-    let cell = document.getElementsByTagName('td');
-    for (let i = 0; i < currWord.length; i++) {
-         if (letter === currWord[i]) {
-            cell[i].innerHTML = letter;
-         } 
-    }
-} */
-
-
-function checkForMatch (letter, element) {
-    let count = countLetter(currWord,letter);
+// checks if the selected letter is correct
+function checkForMatch (letter) {
+    let count = countLetter(currWord,letter); // holds the number of same letter in the word
     if (count > 0) {
         for (let i = 0; i < count; i++) {
             correctLetters.push(letter);
         }
-        let cell = document.getElementsByTagName('td');
-        for (let i = 0; i < currWord.length; i++) {
-             if (letter === currWord[i]) {
-                cell[i].innerHTML = letter;
-             } 
-        }
+        addLetterToWord(letter, false); // passes false to the highlight
         checkForWin();
     } else {
         wrongLetters.push(letter);
-        numberOfTries--;
+        numberOfTries--; // decreases number of tries after each wrong guess
         moveMeteor();
         checkForLoss();
     }
-    disableKey(letter, element);
 }
-
 
 function checkForWin () {
     if (currWord.length === correctLetters.length) {
-        let animationBox = document.getElementById("animation");
-        animationBox.innerHTML = "<img id = \"deadKenny\" src =\" css/images/happy_kenny.png\">" + "<h1 id = \"omgText\"> CONGRATS!!!";
-
+        winAnimation();
     }
-    console.log(correctLetters);
 }
-
 
 function checkForLoss () {
     if (numberOfTries <=0) {
-        let animationBox = document.getElementById("animation");
-        animationBox.innerHTML = "<img id = \"deadKenny\" src =\" css/images/dead_kenny.gif\">" + "<h1 id = \"omgText\"> OH MY GOD! </br> YOU JUST KILLED KENNY!!!";
+        dieAnimation();
+
+        // adds missing letters to the word
+        for (let i = 0; i < currWord.length; i++) {
+            let curLetter = currWord[i]; 
+            // highlights missing letters at the end of the game
+            if (correctLetters.includes(curLetter) === false) {
+                addLetterToWord(curLetter, true);
+            }
+        }
     }
 } 
 
-function disableKey (letter, element) {
-    element.style.color = "lightgrey";
-   // element.style.border = "2px solid lightgrey";
+// moves meteor image according to player mistakes
+function moveMeteor () {
+    let meteor = document.getElementById("meteorImg");
+    // if meteor top is not set, starts with fallIncrement number
+    if (!meteor.style.top) {
+        meteor.style.top = fallIncrement + "vh";
+    } else {
+        // converts string to number
+        let meteorTop = parseFloat(meteor.style.top);
+        meteor.style.top = meteorTop + fallIncrement + "vh";
+    }
 }
+
+// AUXILIARY FUNCTIONS
 
 function shuffleWords (arrayWords) {
     for (let i = arrayWords.length - 1; i > 0; i--) {
@@ -107,20 +125,18 @@ function shuffleWords (arrayWords) {
     }
 }
 
-
 function countLetter (word, letter) {
-    // checks if the letter is in the word - returns 0 or >=1
+    // checks if the letter is in the word, returns how many times the letter is in the word
     let count = 0; 
     for (let i = 0; i < word.length; i++) {
-        if (letter === word[i]) {
+        if (letter === word[i]) { 
             count ++;
-           // currCorrectLetter = letter;
         }
     } 
     return count;
 };
 
-
+// inserts dynamically the table used to display the chosen word
 function drawHiddenWord () {
     let table = document.getElementById("hiddenWord");
     let row = table.insertRow(0);
@@ -129,128 +145,66 @@ function drawHiddenWord () {
     }
 } 
 
-/*
-function addWordTd (letter) {
+// checks if letter was clicked, returns true or false
+function isLetterUsed (letter) {
+    return correctLetters.includes(letter) || wrongLetters.includes(letter);
+}
+
+// adds letter to the correct position in the word
+function addLetterToWord(letter, highlight) { 
     let cell = document.getElementsByTagName('td');
-    for (let i = 0; i <= currWord.length; i++) {
-        cell[i].innerHTML = letter;
+    for (let i = 0; i < currWord.length; i++) {
+        if (letter === currWord[i]) {
+            // if highlight is true, colors letter in red
+            if (highlight) {
+                cell[i].style.color = "red";
+            }
+            cell[i].innerHTML = letter;
+        } 
     }
-    console.log(letter);
-}
-*/
-
-
-function startGame () {
-    document.getElementById("hiddenWord").innerHTML = ""; // clears the cells and borders
-    shuffleWords (words); // randomizes the words in the array
-    currWord = words.pop().toUpperCase(); // saves the current word in upper case
-    console.log(currWord);
-
-    numberOfTries = Math.floor(currWord.length - 0.3 * currWord.length); // calculates number of tries based on the length of the word
-    console.log(numberOfTries);
-
-    fallIncrement = meteorEnd/numberOfTries; // sets the number the meteor needs to fall at every wrong try
-
-    drawHiddenWord(); // draws the cells and borders
-   // console.log(gameHeight);
 }
 
+// colors grey the typed keys
+function disableKey (element) {
+    element.setAttribute("class", "keyDisabled");
+}
 
-function moveMeteor () {
+// shows win div and hides the other divs on the page
+function winAnimation() {
+    document.getElementById("animation").style.display = "none";
+    document.getElementById("dieAnimation").style.display = "none";
+    document.getElementById("winAnimation").style.display = "block";
+}
+
+// shows die div and hides the other divs on the page
+function dieAnimation() {
+    document.getElementById("animation").style.display = "none";
+    document.getElementById("dieAnimation").style.display = "block";
+    document.getElementById("winAnimation").style.display = "none";
+}
+
+// RESET FUNCTIONS
+
+// hides the win and lose anymation
+function restartAnimation() {
+    document.getElementById("animation").style.display = "block";
+    document.getElementById("dieAnimation").style.display = "none";
+    document.getElementById("winAnimation").style.display = "none";
+}
+
+// moves meteor position back to 0vh
+function resetMeteor() {
     let meteor = document.getElementById("meteorImg");
-    //let animation = document.getElementById("animation");
-   // let pos = (wrongLetters.length/numberOfTries) * animation.maxTopOffset - meteor.maxTopOffset/2;
-   if (!meteor.style.top) {
-       meteor.style.top = fallIncrement + "vh";
-   } else {
-        let meteorTop = parseFloat(meteor.style.top);
-        meteor.style.top = meteorTop + fallIncrement + "vh";
-   }
+    meteor.style.top = "0vh";
+}
 
-   // meteor.Top += fallIncrement + "vh";
-    /*
-    meteorPosition += maxTopOffset / numberOfTries;
-    meteor.style.top = meteorPosition + 'px'; 
-
-    let pos = (wrongLetters.length/numberOfTries) * 100;
-    meteor.style.top = pos + "%";
-    console.log(pos);
-    pos = maxTopOffset / numberOfTries;
-    meteor.style.top = pos + 'px'; 
-    pos = maxTopOffset - pos;
-    console.log(pos);   */
-} 
-
-
-
-
-
-
-
-// ERRORS:
-
-// app.js:92 Uncaught TypeError: Cannot read property 'toUpperCase' of undefined
-// at HTMLButtonElement.startGame (app.js:92)
-
-
-/* -----------------------------------------
-
-// FUNCTIONS
-
-
-calculateTries (word) {
-    // returns number of tries for a given word
-};
-
-randomizeWord (arrayWords) {
-
-};
-
-selectLetter (letter) {
-    // user selects letter and check for match with hasLetter
-    // adds letter to wrong or correct array
+// removes style from keyboard
+function resetKeyboard () {
+    let keyboardElements = document.getElementById("keyContainer").getElementsByTagName('li');
+    for (let i = 0; i < keyboardElements.length; i++) {
+        let keyboardUlEl = keyboardElements[i];
+        keyboardUlEl.classList.remove("keyDisabled");
+    }
 }
 
 
-
-updateWrongLetter () {
-    // adds letter to array and crosses on keyboard
-}
-
-
-
-checkForLoss () {
-    // checks is player lost
-}
-
-// game starts:
-// randomize word
-
-
-
-// calculate tries based on word length
-
-
-// store tries in numberOfTries
-
-
-// store randomized word in currWord
-
-
-// during game:
-// player selects letter
-
-
-
-// letter is saved in wrong or right array
-// hidden word is updated or meteoroid moves closer to kenny
-// check for win (word length and character match)
-// check for lose (compare word length with number of tries)
-// do this for numberOfTries
-
-// Extras:
-// new game
-// score
-
-
-*/
