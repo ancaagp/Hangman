@@ -1,6 +1,6 @@
 # Don't kill Kenny - just another hangman game
 
-![DKK] (https://static.spin.com/files/2019/06/south_park_still_h_2016-1561757034-640x360.jpg)
+![DKK](https://static.spin.com/files/2019/06/south_park_still_h_2016-1561757034-640x360.jpg)
 
 
 **Don't kill Kenny** is a South Park inspired hangman game that randomizes South Park characters names that need to be guessed by the player. With every wrong letter typed by the player, the meteorite is getting closer to Kenny. The player's objective is to keep Kenny alive.
